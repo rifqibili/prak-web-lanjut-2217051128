@@ -50,32 +50,26 @@ class UserController extends Controller
     {
     // Validasi input
     $request->validate([
-    'nama' => 'required|string|max:255',
-    'npm' => 'required|string|max:255',
-    'kelas_id' => 'required|integer',
-    'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk foto
+    'nama' => 'required',
+    'npm' => 'required',
+    'kelas_id' => 'required',
+    'foto' => 'image|file|max:2048', // Validasi foto
     ]);
+    // Proses upload foto
     if ($request->hasFile('foto')) {
-        $foto = $request->file('foto');
-        // Buat nama file yang unik
-        $fotoName = time() . '_' . $foto->getClientOriginalName();
-        // Pindahkan file ke folder 'upload/img' di dalam public folder
-        $foto->move(public_path('upload/img'), $fotoName);
-        // Simpan path ke database
-        $fotoPath = 'upload/img/' . $fotoName;
-    } else {
-        // Jika tidak ada file yang diupload, set fotoPath menjadi null atau default
-        $fotoPath = null;
-    }
-    // Menyimpan data ke database termasuk path foto
+    $file = $request->file('foto');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $file->storeAs('uploads', $filename); 
+    
     $this->userModel->create([
     'nama' => $request->input('nama'),
     'npm' => $request->input('npm'),
     'kelas_id' => $request->input('kelas_id'),
-    'foto' => $fotoPath, // Menyimpan path foto
+    'foto' => $filename, // Menyimpan nama file ke database
     ]);
-    return redirect()->to('/user')->with('success', 'User
-    berhasil ditambahkan');
+    }
+    return redirect()->to('/')->with('success', 'User Berhasil
+    dibuat');
     }
     public function profile($id){
 
