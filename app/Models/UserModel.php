@@ -9,17 +9,35 @@ class UserModel extends Model
 {
     use HasFactory;
 
-    // Semua kolom selain 'id' bisa diisi (mass assignable)
     protected $table = 'user';
     protected $guarded = ['id'];
-    protected $fillable = ['nama', 'npm', 'kelas_id'];
+    protected $fillable = [
+        'nama',
+        'npm',
+        'kelas_id',
+        'foto',
+    ];
 
-    // Relasi one-to-many ke UserModel
-    public function kelas()
-    {
-        return $this->belongsTo(kelas::class, 'kelas_id');
+    public function kelas(){
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
-    public function getUser(){
-        return $this->join('kelas', 'kelas.id', '=', 'user.kelas_id')->select('user.*', 'kelas.nama_kelas as nama_kelas')->get();
+    
+    public function getUser($id = null){
+    $query = $this->join('kelas', 'kelas.id', '=', 'user.kelas_id')
+                  ->select('user.*', 'kelas.nama_kelas as nama_kelas');
+    
+    if ($id != null) {
+        // Jika $id diberikan, ambil pengguna dengan ID tertentu
+        return $query->where('user.id', $id)->first();
+    } else {
+        // Jika $id tidak diberikan, ambil semua pengguna
+        return $query->get();
     }
+}
+
+
+    public function saveUser($data)
+{
+    return $this->create($data);
+}
 }

@@ -46,17 +46,55 @@ class UserController extends Controller
     //     dd($data); 
     // }
 
-    public function store(UserRequest $request) 
-    { 
-        $validatedData = $request->validate([ 
-            'nama' => 'required|string|max:255', 
-            'npm' => 'required|string|max:255', 
-            'kelas_id' => 'required|exists:kelas,id', 
-        ]); 
-    
-        $user = UserModel::create($validatedData);
-        $user->load('kelas');
-
-        return redirect()->to('/user');
+    public function store(Request $request)
+    {
+    // Validasi input
+    $request->validate([
+    'nama' => 'required|string|max:255',
+    'npm' => 'required|string|max:255',
+    'kelas_id' => 'required|integer',
+    'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi untuk foto
+    ]);
+    if ($request->hasFile('foto')) {
+        $foto = $request->file('foto');
+        // Buat nama file yang unik
+        $fotoName = time() . '_' . $foto->getClientOriginalName();
+        // Pindahkan file ke folder 'upload/img' di dalam public folder
+        $foto->move(public_path('upload/img'), $fotoName);
+        // Simpan path ke database
+        $fotoPath = 'upload/img/' . $fotoName;
+    } else {
+        // Jika tidak ada file yang diupload, set fotoPath menjadi null atau default
+        $fotoPath = null;
     }
-}
+    // Menyimpan data ke database termasuk path foto
+    $this->userModel->create([
+    'nama' => $request->input('nama'),
+    'npm' => $request->input('npm'),
+    'kelas_id' => $request->input('kelas_id'),
+    'foto' => $fotoPath, // Menyimpan path foto
+    ]);
+    return redirect()->to('/user')->with('success', 'User
+    berhasil ditambahkan');
+    }
+    public function profile($id){
+
+        $user = $this->userModel->find($id);
+
+        if(!$user){
+            return redirect()->back()->with('error', 'User tidak ditemukan');
+        }
+
+        return view ('profile', ['user' => $user]);
+    }
+    public function show($id){
+        $user = $this->userModel->getUser($id);
+
+        $data = [
+            'title' => 'Profile',
+            'user' => $user,
+        ];
+
+        return view('profile', $data);
+    }
+}   
