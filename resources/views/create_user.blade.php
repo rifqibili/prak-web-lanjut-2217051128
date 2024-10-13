@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="text-align: center; margin-top: 130px;">
+<div style="text-align: center; margin-top: 70px;">
 
 
 <!-- Overlay untuk menjaga teks tetap terlihat -->
@@ -20,7 +20,7 @@
 
 
     <!-- Form untuk input nama, npm, kelas -->
-    <form action="{{ url('/user/store') }}" method="POST" style="background-color: #004D98; padding: 20px; border-radius: 10px; display: inline-block; text-align: left; color: white;">
+    <form action="{{ url('/user/store') }}" method="POST" enctype="multipart/form-data" style="background-color: #004D98; padding: 20px; border-radius: 10px; display: inline-block; text-align: left; color: white;">
         @csrf
 
         <label for="nama">Nama:</label><br>
@@ -36,7 +36,9 @@
             @endforeach
         </select><br>
 
-        <button type="submit" style="background-color: #A50044; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Submit</button>
+        <input type="file" id="foto" name="foto"><br><br>
+        <label for="foto">foto:</label><br>
+        <button type="submit" style="background-color: #A50044; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Submit</button><br><br>
     </form>
 </div>
 @endsection
