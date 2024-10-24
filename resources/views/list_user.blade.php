@@ -16,8 +16,10 @@
             <tr style="background-color: #A50044;">
                 <th style="padding: 10px; border: 1px solid white;">ID</th>
                 <th style="padding: 10px; border: 1px solid white;">Nama</th>
-                <th style="padding: 10px; border: 1px solid white;">NPM</th>
                 <th style="padding: 10px; border: 1px solid white;">Kelas</th>
+                <th style="padding: 10px; border: 1px solid white;">Jurusan</th>
+                <th style="padding: 10px; border: 1px solid white;">Semester</th>
+                <th style="padding: 10px; border: 1px solid white;">Fakultas</th>
                 <th style="padding: 10px; border: 1px solid white;">Foto</th>
                 <th style="padding: 10px; border: 1px solid white;">Aksi</th>
             </tr>
@@ -27,8 +29,10 @@
                 <tr>
                     <td style="padding: 10px; border: 1px solid white;">{{ $user->id }}</td>
                     <td style="padding: 10px; border: 1px solid white;">{{ $user->nama }}</td>
-                    <td style="padding: 10px; border: 1px solid white;">{{ $user->npm }}</td>
                     <td style="padding: 10px; border: 1px solid white;">{{ $user->nama_kelas }}</td>
+                    <td style="padding: 10px; border: 1px solid white;">{{ $user->jurusan }}</td>
+                    <td style="padding: 10px; border: 1px solid white;">{{ $user->semester }}</td>
+                    <td style="padding: 10px; border: 1px solid white;">{{ $user->nama_fakultas }}</td>
                     <td style="padding: 10px; border: 1px solid white;"> 
                         @if($user->foto)
                             <!-- Menampilkan gambar dari path yang disimpan di database -->
