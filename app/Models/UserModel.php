@@ -13,9 +13,10 @@ class UserModel extends Model
     protected $guarded = ['id'];
     protected $fillable = [
         'nama',
-        'npm',
         'kelas_id',
         'foto',
+        'fakultas_id',
+        'jurusan',
     ];
 
     public function kelas(){
@@ -23,9 +24,11 @@ class UserModel extends Model
     }
     
     public function getUser($id = null){
-    $query = $this->join('kelas', 'kelas.id', '=', 'user.kelas_id')
-                  ->select('user.*', 'kelas.nama_kelas as nama_kelas');
-    
+        $query = $this->join('kelas', 'kelas.id', '=', 'user.kelas_id')
+        ->join('fakultas', 'fakultas.id', '=', 'user.fakultas_id') // Join with the fakultas table
+        ->select('user.*', 
+                 'kelas.nama_kelas as nama_kelas', 
+                 'fakultas.nama_fakultas as nama_fakultas');
     if ($id != null) {
         // Jika $id diberikan, ambil pengguna dengan ID tertentu
         return $query->where('user.id', $id)->first();

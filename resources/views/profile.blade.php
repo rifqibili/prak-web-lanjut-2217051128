@@ -81,18 +81,33 @@
 
         <!-- Informasi User -->
         <div class="info-box">
-            <div class="box">
-                <label for="nama">Nama:</label>
-                <input type="text" id="nama" value="{{ $user->nama }}" readonly>
-            </div>
-            <div class="box">
-                <label for="kelas">Kelas:</label>
-                <input type="text" id="kelas" value="{{ $user->kelas->nama_kelas ?? 'kelas tidak ditemukan' }}" readonly>
-            </div>
-            <div class="box">
-                <label for="npm">NPM:</label>
-                <input type="text" id="npm" value="{{ $user->npm }}" readonly>
-            </div>
+    <div class="box">
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" value="{{ $user->nama }}" readonly>
+    </div>
+
+    <div class="box">
+        <label for="kelas">Kelas:</label>
+        <input type="text" id="kelas" value="{{ $user->kelas->nama_kelas ?? 'kelas tidak ditemukan' }}" readonly>
+    </div>
+
+    <!-- Tambahkan Jurusan -->
+    <div class="box">
+        <label for="jurusan">Jurusan:</label>
+        <input type="text" id="jurusan" value="{{ ucfirst($user->jurusan) }}" readonly>
+    </div>
+
+    <!-- Tambahkan Semester -->
+    <div class="box">
+        <label for="semester">Semester:</label>
+        <input type="text" id="semester" value="{{ $user->semester }}" readonly>
+    </div>
+
+    <!-- Tambahkan Fakultas -->
+    <div class="box">
+        <label for="fakultas">Fakultas:</label>
+        <input type="text" id="fakultas" value="{{ $user->nama_fakultas ?? 'fakultas tidak ditemukan' }}" readonly>
+    </div>
         </div>
     </div>
 </body>
